@@ -7,6 +7,7 @@ CH_BINARY="$PWD/resources/cloud-hypervisor"
 KERNEL="$PWD/resources/vmlinux"
 RO_DRIVE="$PWD/resources/rootfs.ext4"
 LOGFILE="$PWD/output/ch-sb${SB_ID}-log"
+API_SOCKET="/tmp/ch-sb${SB_ID}.sock"
 
 TAP_DEV="ch-${SB_ID}-tap0"
 MASK="255.255.255.252"            # /30
@@ -18,8 +19,9 @@ CMDLINE="init=/sbin/boottime_init panic=1 pci=on nomodules reboot=k \
 tsc=reliable quiet i8042.nokbd i8042.noaux 8250.nr_uarts=0 ipv6.disable=1 \
 ip=${CH_IP}::${TAP_IP}:${MASK}::eth0:off root=/dev/vda ro"
 
+rm -f "$API_SOCKET"
 "${CH_BINARY}" \
-  --api-socket /tmp/ch-sb${SB_ID}.sock \
+  --api-socket "${API_SOCKET}" \
   --kernel "${KERNEL}" \
   --cmdline "${CMDLINE}" \
   --disk path=${RO_DRIVE},readonly=true \
