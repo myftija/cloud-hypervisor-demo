@@ -5,31 +5,15 @@ set -euo pipefail
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 TEST_RES="$SCRIPT_DIR/../resources"
 S3_BUCKET="spec.ccfc.min"
-TARGET="$(uname -m)"
-FC_VERSION="v1.1.2"
+CH_VERSION="v46.0"
 
-ensure_firecracker() {
-    file_path="$TEST_RES/firecracker"
+ensure_cloud_hypervisor() {
+    file_path="$TEST_RES/cloud-hypervisor"
 
-    # Get the specified firecracker version.
-    TMP_FOLDER="/tmp/tmprelease"
-    TMP_ARCHIVE="/tmp/release.tgz"
-
-    wget -q "https://github.com/firecracker-microvm/firecracker/releases/download/$FC_VERSION/firecracker-$FC_VERSION-$TARGET.tgz" -O "$TMP_ARCHIVE"
-
-    mkdir -p "$TMP_FOLDER"
-    tar -zxf "$TMP_ARCHIVE" -C "$TMP_FOLDER"
-
-    # Get the firecracker binary
-    cp "$(find "$TMP_FOLDER" -name "firecracker*$TARGET*")" "$file_path"
+    wget -q https://github.com/cloud-hypervisor/cloud-hypervisor/releases/download/$CH_VERSION/cloud-hypervisor-static -O "$file_path"
     chmod +x "$file_path"
 
-    echo "Saved firecracker at $file_path"
-
-    # Clean up
-    rm -rf "$TMP_FOLDER"
-    rm "$TMP_ARCHIVE"
-
+    echo "Saved cloud-hypervisor at $file_path"
 }
 
 ensure_kernel() {
@@ -50,7 +34,6 @@ ensure_rootfs() {
 
 mkdir -p "$TEST_RES"
 
-# Obtain Firecracker.
-ensure_firecracker
+ensure_cloud_hypervisor
 ensure_kernel
 ensure_rootfs
