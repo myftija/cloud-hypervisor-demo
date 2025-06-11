@@ -6,6 +6,7 @@ SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 TEST_RES="$SCRIPT_DIR/../resources"
 S3_BUCKET="spec.ccfc.min"
 CH_VERSION="v46.0"
+CH_LINUX_FORK_RELEASE="ch-release-v6.12.8-20250114"
 
 ensure_cloud_hypervisor() {
     file_path="$TEST_RES/cloud-hypervisor"
@@ -18,8 +19,9 @@ ensure_cloud_hypervisor() {
 
 ensure_kernel() {
     file_path="$TEST_RES/vmlinux"
-    kv="4.14"
-    wget -q "https://s3.amazonaws.com/$S3_BUCKET/ci-artifacts/kernels/$TARGET/vmlinux-$kv.bin" -O "$file_path"
+
+    wget -q "https://github.com/cloud-hypervisor/linux/releases/download/$CH_LINUX_FORK_RELEASE/vmlinux" -O "$file_path"
+    
     echo "Saved kernel at $file_path..."
 }
 
