@@ -12,5 +12,5 @@ sudo sysctl -w net.ipv4.neigh.default.gc_thresh1=1024
 sudo sysctl -w net.ipv4.neigh.default.gc_thresh2=2048
 sudo sysctl -w net.ipv4.neigh.default.gc_thresh3=4096
 
-# Add CAP_NET_ADMIN to firecracker (for TUNSETIFF ioctl)
-sudo setcap cap_net_admin=eip firecracker
+# Add CAP_NET_ADMIN to cloud-hypervisor (for TUNSETIFF ioctl)
+sudo setcap cap_net_admin=eip cloud-hypervisor

@@ -3,7 +3,7 @@
 set -euo pipefail
 
 SB_ID="${1:-0}" # Default to 0
-TAP_DEV="fc-${SB_ID}-tap0"
+TAP_DEV="ch-${SB_ID}-tap0"
 
 # Setup TAP device that uses proxy ARP
 MASK_SHORT="/30"
