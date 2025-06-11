@@ -14,7 +14,7 @@ CH_IP=$(printf '169.254.%s.%s' $(((4*SB_ID+1)/256)) $(((4*SB_ID+1)%256)))
 TAP_IP=$(printf '169.254.%s.%s' $(((4*SB_ID+2)/256)) $(((4*SB_ID+2)%256)))
 MAC=$(printf '02:CC:00:00:%02X:%02X' $((SB_ID/256)) $((SB_ID%256)))
 
-CMDLINE="init=/sbin/boottime_init panic=1 pci=off nomodules reboot=k \
+CMDLINE="init=/sbin/boottime_init panic=1 pci=on nomodules reboot=k \
 tsc=reliable quiet i8042.nokbd i8042.noaux 8250.nr_uarts=0 ipv6.disable=1 \
 ip=${CH_IP}::${TAP_IP}:${MASK}::eth0:off root=/dev/vda ro"
 
