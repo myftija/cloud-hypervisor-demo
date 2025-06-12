@@ -37,7 +37,7 @@ do
   fi
 
   boot_time_seconds=$(echo "$user_time - $kernel_time" | bc)
-  boot_time_ms=$(echo "$boot_time_seconds * 1000" | bc)
+  boot_time_ms=$(echo "scale=0; ($boot_time_seconds * 1000) / 1" | bc)
   echo "$i boot $boot_time_ms ms" >> "$DEST"
 done
 
