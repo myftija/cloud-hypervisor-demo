@@ -22,11 +22,38 @@ ip=${CH_IP}::${TAP_IP}:${MASK}::eth0:off root=/dev/vda ro"
 rm -f "$API_SOCKET"
 "${CH_BINARY}" \
   --api-socket "${API_SOCKET}" \
-  --kernel "${KERNEL}" \
-  --cmdline "${CMDLINE}" \
-  --disk path=${RO_DRIVE},readonly=true \
-  --net "tap=${TAP_DEV},mac=${MAC},ip=${CH_IP},mask=${MASK}" \
-  --cpus boot=1 \
-  --memory size=128M \
-  --serial file=${LOGFILE} \
   --log-file ${LOGFILE} >> "$LOGFILE" &
+
+curl --silent --show-error --unix-socket "${API_SOCKET}" -i \
+  -X PUT 'http://localhost/api/v1/vm.create' \
+  -H 'Accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "cpus": { "boot_vcpus": 1, "max_vcpus": 1 },
+    "memory": { "size": 134217728 },
+    "payload": {
+      "kernel": "'"${KERNEL}"'",
+      "cmdline": "'"${CMDLINE}"'"
+    },
+    "disks": [
+      {
+        "path": "'"${RO_DRIVE}"'",
+        "readonly": true
+      }
+    ],
+    "net": [
+      {
+        "tap": "'"${TAP_DEV}"'",
+        "mac": "'"${MAC}"'",
+        "ip": "'"${CH_IP}"'",
+        "mask": "'"${MASK}"'"
+      }
+    ],
+    "serial": {
+      "mode": "File",
+      "file": "'"${LOGFILE}"'"
+    }
+  }'
+
+curl --silent --show-error --unix-socket "${API_SOCKET}" -i \
+  -X PUT 'http://localhost/api/v1/vm.boot'
