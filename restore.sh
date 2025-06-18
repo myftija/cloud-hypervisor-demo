@@ -2,7 +2,7 @@
 set -euo pipefail
 
 source ./start-ch.sh # avoid forking to enable referencing the declared variables, e.g., SB_ID, API_SOCKET, etc...
-sleep 1
+sleep 0.5s
 
 SNAPSHOT_DIR="$PWD/output/ch-sb${SB_ID}-snapshot"
 
@@ -26,6 +26,12 @@ restore_call_ts=$(date +%s.%N)
 "${CH_BINARY}" \
   --restore source_url=file://${SNAPSHOT_DIR} \
   --event-monitor path=${LOGFILE} >> "$LOGFILE" &
+
+# Wait for API server to start
+while [ ! -e "$API_SOCKET" ]; do
+    echo "CH $SB_ID still not ready..."
+    sleep 0.01s
+done
 
 curl --silent --show-error --unix-socket "${API_SOCKET}" -i \
   -X PUT 'http://localhost/api/v1/vm.resume'

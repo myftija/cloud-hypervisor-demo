@@ -24,6 +24,14 @@ rm -f "$API_SOCKET"
   --api-socket "${API_SOCKET}" \
   --log-file ${LOGFILE} >> "$LOGFILE" &
 
+sleep 0.015s
+
+# Wait for API server to start
+while [ ! -e "$API_SOCKET" ]; do
+    echo "CH $SB_ID still not ready..."
+    sleep 0.01s
+done
+
 curl --silent --show-error --unix-socket "${API_SOCKET}" -i \
   -X PUT 'http://localhost/api/v1/vm.create' \
   -H 'Accept: application/json' \
