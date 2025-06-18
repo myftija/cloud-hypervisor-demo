@@ -20,7 +20,7 @@ do
     continue
   fi
 
-  restore_to_network_ready_ms=$(cat "$log_file" | grep "BOOT_TO_NETWORK_READY_PING_MS" | head -1 | awk '{print $2}')
+  restore_to_network_ready_ms=$(cat "$log_file" | grep "RESTORE_TO_NETWORK_READY_PING_MS" | head -1 | awk '{print $2}')
 
   if [ -z "$restore_to_network_ready_ms" ]; then
     echo "Failed to find restore to network ready event in $log_file" >&2

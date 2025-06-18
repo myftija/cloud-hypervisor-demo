@@ -22,10 +22,16 @@ curl --silent --show-error --unix-socket "${API_SOCKET}" -i \
 curl --silent --show-error --unix-socket "${API_SOCKET}" -i \
   -X PUT 'http://localhost/api/v1/vm.shutdown'
 
+EVENTS_FILE="$PWD/output/ch-sb${SB_ID}-events"
+rm -f "$EVENTS_FILE"
+touch "$EVENTS_FILE"
+
+rm -f "$API_SOCKET"
 restore_call_ts=$(date +%s.%N)
 "${CH_BINARY}" \
+  --api-socket "${API_SOCKET}" \
   --restore source_url=file://${SNAPSHOT_DIR} \
-  --event-monitor path=${LOGFILE} >> "$LOGFILE" &
+  --event-monitor path=${EVENTS_FILE} >> "$LOGFILE" &
 
 # Wait for API server to start
 while [ ! -e "$API_SOCKET" ]; do
