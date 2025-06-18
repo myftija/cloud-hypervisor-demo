@@ -49,6 +49,6 @@ EOL
 {
   sleep 2
   ./extract-times.sh &
-  ./extract-boot-to-network-ready-times &
+  ./extract-boot-to-network-ready-times.sh &
 } &
 

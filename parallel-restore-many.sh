@@ -50,5 +50,5 @@ EOL
 {
   sleep 2
   ./extract-restore-times.sh &
-  ./extract-restore-to-network-ready-times &
+  ./extract-restore-to-network-ready-times.sh &
 } &
