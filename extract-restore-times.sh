@@ -20,12 +20,15 @@ do
     continue
   fi
 
-  restored_time_ms=$(cat "$events_file" | jq -r 'try (select(type == "object" and has("event") and .event == "restored") | ((.timestamp.secs * 1000 + .timestamp.nanos / 1000000) | floor)) // empty' 2>/dev/null | head -n 1)
+  restore_start_ns=$(cat "$events_file" | jq -r 'try (select(type == "object" and has("event") and .event == "restoring") | (.timestamp.secs * 1000000000 + .timestamp.nanos)) // empty' 2>/dev/null | head -n 1)
+  restore_finish_ns=$(cat "$events_file" | jq -r 'try (select(type == "object" and has("event") and .event == "restored") | (.timestamp.secs * 1000000000 + .timestamp.nanos)) // empty' 2>/dev/null | head -n 1)
 
-  if [ -z "$restored_time_ms" ]; then
-    echo "Failed to find restored event in $events_file" >&2
+  if [ -z "$restore_start_ns" ] || [ -z "$restore_finish_ns" ]; then
+    echo "Failed to find restoring and restored events in $events_file" >&2
     continue
   fi
+
+  restore_time_ms=$(echo "($restore_finish_ns - $restore_start_ns) / 1000000" | bc)
 
   echo "$i restored $restored_time_ms ms" >> "$DEST"
 done
