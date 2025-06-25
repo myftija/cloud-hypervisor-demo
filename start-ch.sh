@@ -72,6 +72,7 @@ boot_call_ts=$(date +%s.%N)
 curl --silent --show-error --unix-socket "${API_SOCKET}" -i \
   -X PUT 'http://localhost/api/v1/vm.boot'
 
+if [[ "${SKIP_BOOT_NETWORK_READINESS_CHECK:-false}" != "true" ]]; then
 # non-blocking network readiness check - ping
 {
   max_attempts=600
@@ -115,3 +116,4 @@ curl --silent --show-error --unix-socket "${API_SOCKET}" -i \
     echo "BOOT_TO_NETWORK_READY_TCP22_TIMEOUT" >> "${LOGFILE}"
   fi
 } &
+fi
