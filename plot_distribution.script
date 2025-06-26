@@ -37,7 +37,7 @@ set label 4 gprintf("Standard deviation = %g", stddev_y) at STATS_max_x/2-50, 80
 plot mean_y-stddev_y with filledcurves y1=mean_y lt 1 lc rgb "#b3ffb3" notitle, \
      mean_y+stddev_y with filledcurves y1=mean_y lt 1 lc rgb "#b3ffb3" title "Standard deviation", \
      mean_y w l lt 1 lc rgb "#ffff66" lw 3 title "Mean average", \
-     log_file u 1:3 title series_name w p lc rgb 'orange' pt 14 ps 1, \
+     log_file u 1:3 title series_name w p lc rgb 'orange' pt 13 ps 1, \
      STATS_min_y w l lc rgb 'blue' notitle, \
      STATS_max_y w l lc rgb 'blue' notitle
 
