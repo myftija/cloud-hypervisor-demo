@@ -2,13 +2,13 @@
 
 set -euo pipefail
 
-mkdir -p $PWD/benchmarks/raw
+mkdir -p $PWD/${BENCHMARK_DIR:-benchmarks}/raw
 
 DATA_DIR="output"
-SNAPSHOT_DEST="$PWD/benchmarks/raw/snapshot.log"
-RESTORE_DEST="$PWD/benchmarks/raw/restore.log"
-NETWORK_PING_DEST="$PWD/benchmarks/raw/restore_to_network_ready_ping_probe.log"
-NETWORK_TCP22_DEST="$PWD/benchmarks/raw/restore_to_network_ready_tcp22_probe.log"
+SNAPSHOT_DEST="$PWD/${BENCHMARK_DIR:-benchmarks}/raw/snapshot.log"
+RESTORE_DEST="$PWD/${BENCHMARK_DIR:-benchmarks}/raw/restore.log"
+NETWORK_PING_DEST="$PWD/${BENCHMARK_DIR:-benchmarks}/raw/restore_to_network_ready_ping_probe.log"
+NETWORK_TCP22_DEST="$PWD/${BENCHMARK_DIR:-benchmarks}/raw/restore_to_network_ready_tcp22_probe.log"
 
 # Clean up previous output files
 rm -f "$SNAPSHOT_DEST" "$RESTORE_DEST" "$NETWORK_PING_DEST" "$NETWORK_TCP22_DEST"

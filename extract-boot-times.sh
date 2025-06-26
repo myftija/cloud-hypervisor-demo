@@ -3,11 +3,11 @@
 set -euo pipefail
 
 DATA_DIR="output"
-BOOT_DEST="$PWD/benchmarks/raw/boot.log"
-PING_DEST="$PWD/benchmarks/raw/boot_to_network_ready_ping_probe.log"
-TCP22_DEST="$PWD/benchmarks/raw/boot_to_network_ready_tcp22_probe.log"
+BOOT_DEST="$PWD/${BENCHMARK_DIR:-benchmarks}/raw/boot.log"
+PING_DEST="$PWD/${BENCHMARK_DIR:-benchmarks}/raw/boot_to_network_ready_ping_probe.log"
+TCP22_DEST="$PWD/${BENCHMARK_DIR:-benchmarks}/raw/boot_to_network_ready_tcp22_probe.log"
 
-mkdir -p $PWD/benchmarks/raw
+mkdir -p $PWD/${BENCHMARK_DIR:-benchmarks}/raw
 
 # Clean up existing output files
 rm -f "$BOOT_DEST" "$PING_DEST" "$TCP22_DEST"
