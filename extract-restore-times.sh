@@ -13,7 +13,7 @@ COUNT=$(find . -type f -name "ch-sb*" | sort -V | tail -1 | cut -d '-' -f 2 | cu
 
 for i in $(seq 0 "$COUNT")
 do
-  events_file="ch-sb${i}-events"
+  events_file="ch-sb${i}-events-01"
   
   if [ ! -f "$events_file" ]; then
     echo "File $events_file does not exist" >&2

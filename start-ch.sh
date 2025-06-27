@@ -19,9 +19,14 @@ CMDLINE="init=/sbin/boottime_init panic=1 pci=on nomodules reboot=k \
 tsc=reliable quiet i8042.nokbd i8042.noaux 8250.nr_uarts=0 ipv6.disable=1 \
 ip=${CH_IP}::${TAP_IP}:${MASK}::eth0:off root=/dev/vda ro"
 
+EVENTS_FILE_00="$PWD/output/ch-sb${SB_ID}-events-00"
+rm -f "$EVENTS_FILE_00"
+touch "$EVENTS_FILE_00"
+
 rm -f "$API_SOCKET"
 "${CH_BINARY}" \
   --api-socket "${API_SOCKET}" \
+  --event-monitor path=${EVENTS_FILE_00} \
   --log-file ${LOGFILE} >> "$LOGFILE" &
 
 sleep 0.015s
