@@ -37,13 +37,15 @@ while [ ! -e "$API_SOCKET" ]; do
     sleep 0.01s
 done
 
+MEMORY_SIZE=$((1024 * 1024 * ${VM_MEM:-128}))
+
 curl --silent --show-error --unix-socket "${API_SOCKET}" -i \
   -X PUT 'http://localhost/api/v1/vm.create' \
   -H 'Accept: application/json' \
   -H 'Content-Type: application/json' \
   -d '{
-    "cpus": { "boot_vcpus": 1, "max_vcpus": 1 },
-    "memory": { "size": 134217728 },
+    "cpus": { "boot_vcpus": '"${VM_CPUS:-1}"', "max_vcpus": '"${VM_CPUS:-1}"' },
+    "memory": { "size": '"${MEMORY_SIZE}"' },
     "payload": {
       "kernel": "'"${KERNEL}"'",
       "cmdline": "'"${CMDLINE}"'"
