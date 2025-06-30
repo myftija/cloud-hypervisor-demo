@@ -30,7 +30,9 @@ capture_system_usage() {
   echo "" | tee -a ./$BENCHMARK_DIR/system_resources.log
 }
 
-killall cloud-hypervisor && rm -rf output && mkdir output
+killall -9 cloud-hypervisor || true
+rm -rf output && mkdir output
+sleep 5
 
 capture_system_usage "pre-boot"
 ./parallel-start-many.sh 0 "${VM_COUNT:-1000}" 4
@@ -39,13 +41,16 @@ capture_system_usage "post-boot"
 
 ./extract-boot-times.sh
 
-killall cloud-hypervisor && rm -rf output && mkdir output
+killall -9 cloud-hypervisor || true
+rm -rf output && mkdir output
 sleep 5
 
 capture_system_usage "pre-restore"
 ./parallel-restore-many.sh 0 "${VM_COUNT:-1000}" 4
 sleep 5
 capture_system_usage "post-restore"
+
+killall -9 cloud-hypervisor || true
 
 ./extract-restore-times.sh
 
