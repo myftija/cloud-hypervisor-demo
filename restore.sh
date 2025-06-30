@@ -22,6 +22,7 @@ curl --silent --show-error --unix-socket "${API_SOCKET}" -i \
 
 curl --silent --show-error --unix-socket "${API_SOCKET}" -i \
   -X PUT 'http://localhost/api/v1/vm.shutdown'
+kill -9 "$CH_PID" &>/dev/null || true
 sleep 0.5s
 
 EVENTS_FILE_01="$PWD/output/ch-sb${SB_ID}-events-01"

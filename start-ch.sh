@@ -28,6 +28,7 @@ rm -f "$API_SOCKET"
   --api-socket "${API_SOCKET}" \
   --event-monitor path=${EVENTS_FILE_00} \
   --log-file ${LOGFILE} >> "$LOGFILE" &
+CH_PID=$!
 
 sleep 0.015s
 
